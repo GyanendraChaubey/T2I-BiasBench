@@ -1,2 +1,15 @@
 .DS_Store
 **/.DS_Store
+Thumbs.db
+
+# Editor/IDE noise
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local env/log/temp
+.env
+.env.*
+*.log
+*.tmp
