@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="T2I-BiasBench: A multi-metric benchmark for auditing demographic and cultural bias in text-to-image models." />
+  <meta property="og:title" content="T2I-BiasBench" />
+  <meta property="og:description" content="A multi-metric framework for auditing demographic and cultural bias in text-to-image models." />
+  <meta property="og:image" content="assests/framework.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="T2I-BiasBench" />
+  <meta name="twitter:description" content="A multi-metric framework for auditing demographic and cultural bias in text-to-image models." />
+
+  <title>T2I-BiasBench: A Multi-Metric Framework for Auditing Demographic and Cultural Bias in Text-to-Image Models</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <style>
+    :root {
+      --brand-purple: #5b3cc4;
+      --brand-green: #1f9a74;
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --text: #20242f;
+      --muted: #5f6778;
+      --border: #dce0ea;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .publication-title {
+      font-family: "Google Sans", sans-serif;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.85rem;
+    }
+
+    .publication-authors,
+    .publication-affiliation {
+      font-family: "Google Sans", sans-serif;
+    }
+
+    .author-block {
+      display: inline-block;
+      margin: 0 0.25rem;
+    }
+
+    .author-note {
+      margin-top: 0.6rem;
+      color: #6b7280;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(30, 35, 54, 0.06);
+      padding: 2.2rem 1.8rem;
+    }
+
+    .publication-links .button {
+      margin: 0.28rem;
+    }
+
+    .section-title {
+      font-family: "Google Sans", sans-serif;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.9rem;
+    }
+
+    .section-subtext {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .figure-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(30, 35, 54, 0.05);
+      overflow: hidden;
+      margin-top: 1rem;
+    }
+
+    .figure-card img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .figure-body {
+      padding: 0.9rem 1rem 1.1rem;
+      background: #fff;
+    }
+
+    .figure-title {
+      font-family: "Google Sans", sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .figure-caption {
+      font-size: 0.94rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .metric-list {
+      margin: 0;
+      padding-left: 1.1rem;
+      columns: 2;
+      column-gap: 2rem;
+    }
+
+    .metric-list li {
+      margin-bottom: 0.45rem;
+      color: #3b4253;
+    }
+
+    .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid #d4d7e2;
+      color: #475066;
+      font-size: 0.82rem;
+      background: #fafbff;
+      margin-bottom: 0.8rem;
+    }
+
+    pre {
+      border-radius: 12px;
+      border: 1px solid #d8dce7;
+      background: #111827;
+      color: #e5e7eb;
+      font-size: 0.86rem;
+      line-height: 1.5;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+
+    .footer-note {
+      color: #6b7280;
+      font-size: 0.93rem;
+    }
+
+    .brand-text {
+      color: var(--brand-purple);
+      font-weight: 700;
+    }
+
+    .is-soft {
+      background: #f3f5fb;
+    }
+
+    @media (max-width: 768px) {
+      .hero-card {
+        padding: 1.6rem 1rem;
+      }
+
+      .metric-list {
+        columns: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="hero-card has-text-centered">
+        <span class="tagline">
+          <i class="fa-solid fa-magnifying-glass-chart"></i>
+          Text-to-Image Bias Audit Benchmark
+        </span>
+
+        <h1 class="title is-2 publication-title">T2I-BiasBench: A Multi-Metric Framework for Auditing Demographic and Cultural Bias in Text-to-Image Models</h1>
+
+        <div class="is-size-5 publication-authors">
+          <span class="author-block"><strong>Nihal Jaiswal</strong><sup>1&#8224;</sup>,</span>
+          <span class="author-block"><strong>Anchal Chaurasiya</strong><sup>1&#8224;</sup>,</span>
+          <span class="author-block"><strong>Aditya Singh</strong><sup>1&#8224;</sup>,</span>
+          <span class="author-block"><strong>Ankush Kumar</strong><sup>1&#8224;</sup>,</span>
+          <span class="author-block"><strong>Gyanendra Chaubey</strong><sup>2*</sup></span>
+        </div>
+
+        <div class="is-size-6 publication-affiliation mt-2 has-text-grey">
+          <span class="author-block"><sup>1</sup>Department of Information Technology, Rajkiya Engineering College, Banda, Uttar Pradesh, India</span><br />
+          <span class="author-block"><sup>2</sup>School of AI and Data Science, IIT Jodhpur, Rajasthan, India</span>
+          <div class="author-note">
+            <sup>&#8224;</sup>Equal contribution. <strong>*</strong>Corresponding author:
+            <a href="mailto:m23air005@iitj.ac.in">m23air005@iitj.ac.in</a>
+          </div>
+        </div>
+
+        <div class="publication-links mt-4">
+          <a href="#" class="button is-dark is-rounded">
+            <span class="icon"><i class="fa-solid fa-book-open"></i></span>
+            <span>arXiv</span>
+          </a>
+          <a href="#" class="button is-dark is-rounded">
+            <span class="icon"><i class="fab fa-github"></i></span>
+            <span>Code</span>
+          </a>
+          <a href="#" class="button is-dark is-rounded">
+            <span class="icon"><i class="fa-solid fa-chart-line"></i></span>
+            <span>Benchmark Portal</span>
+          </a>
+          <a href="#" class="button is-dark is-rounded">
+            <span class="icon"><i class="fa-solid fa-video"></i></span>
+            <span>Video</span>
+          </a>
+          <a href="#" class="button is-dark is-rounded">
+            <span class="icon"><i class="fa-solid fa-file-powerpoint"></i></span>
+            <span>PPT</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section is-soft">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Abstract</h2>
+      <div class="content section-subtext">
+        <p>
+          Text-to-image (T2I) generative models have achieved strong visual fidelity, but their deployment raises
+          urgent questions around demographic fairness and cultural representation. This paper introduces
+          <strong>T2I-BiasBench</strong>, a reproducible thirteen-metric framework that quantifies bias across
+          demographic and contextual dimensions in small-scale diffusion models.
+        </p>
+        <p>
+          We evaluate Stable Diffusion v1.5, BK-SDM Base, and Koala Lightning, with Gemini 2.5 Flash
+          (RLHF-trained) as a high-parameter baseline, over 1,574 generated images spanning Beauty, Doctor,
+          Culture, Animal, and Nature prompts. The framework integrates seven original bias metrics and six
+          newly proposed measures to jointly evaluate fairness, stereotype strength, diversity, faithfulness, and
+          prompt alignment. Results show stereotype amplification in beauty prompts, capability masking effects in
+          medical prompts, and persistent cultural collapse to a narrow festival subset across all models.
+        </p>
+        <p class="has-text-grey">
+          Note: This website currently reflects the raw preprint draft. Final language edits and arXiv submission are in progress.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Framework</h2>
+      <div class="figure-card">
+        <img src="assests/framework.png" alt="T2I-BiasBench framework diagram" />
+        <div class="figure-body">
+          <div class="figure-caption">
+            End-to-end pipeline from prompt families to model generation, caption/attribute extraction, and
+            metric modules that produce composite bias and diversity indicators.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section is-soft">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Evaluation Metrics</h2>
+      <div class="content section-subtext">
+        <p class="mb-3">
+          T2I-BiasBench uses a broad metric panel to capture multiple failure modes instead of overfitting to one bias score.
+        </p>
+        <ul class="metric-list">
+          <li>Representation Parity</li>
+          <li>Parity Difference</li>
+          <li>Bias Amplification</li>
+          <li>Shannon Entropy</li>
+          <li>KL Divergence</li>
+          <li>Festival CAS (Contextual Association Score)</li>
+          <li>Composite Bias Score</li>
+          <li>Cultural Accuracy Ratio</li>
+          <li>GMR (Grounded Missing Rate)</li>
+          <li>IEMR (Implicit Element Missing Rate)</li>
+          <li>Hallucination Score</li>
+          <li>Vendi Score</li>
+          <li>CLIP Proxy Score (prompt-caption alignment)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Main Results</h2>
+
+      <div class="results-grid">
+        <article class="figure-card">
+          <img src="assests/image/web/composite-bias-score.png" alt="Composite bias score across models and prompts" />
+          <div class="figure-body">
+            <div class="figure-title">Composite Bias Score</div>
+            <p class="figure-caption">Aggregate fairness profile across all prompt families (0 = fair, 1 = biased).</p>
+          </div>
+        </article>
+
+        <article class="figure-card">
+          <img src="assests/image/web/bias-profile-radar.png" alt="Bias profile radar for all models" />
+          <div class="figure-body">
+            <div class="figure-title">Bias Profile Radar</div>
+            <p class="figure-caption">Cross-prompt comparison where smaller area indicates a fairer overall behavior profile.</p>
+          </div>
+        </article>
+
+        <article class="figure-card">
+          <img src="assests/image/web/vendi-clip-proxy.png" alt="Vendi score and CLIP proxy score comparison" />
+          <div class="figure-body">
+            <div class="figure-title">Vendi + CLIP Proxy</div>
+            <p class="figure-caption">Joint view of diversity (Vendi) and prompt alignment (CLIP Proxy) per prompt family.</p>
+          </div>
+        </article>
+
+        <article class="figure-card">
+          <img src="assests/image/web/animal-baseline.png" alt="Animal baseline puzzle and lab context fidelity" />
+          <div class="figure-body">
+            <div class="figure-title">Animal Baseline Capability</div>
+            <p class="figure-caption">Capability stress-test highlighting puzzle accuracy and lab-context faithfulness gaps.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section is-soft">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Demographic Prompt Findings</h2>
+
+      <div class="results-grid">
+        <article class="figure-card">
+          <img src="assests/image/web/beauty-ethnicity-distribution.png" alt="Beauty prompt ethnicity distribution" />
+          <div class="figure-body">
+            <div class="figure-title">Beauty Prompt: Ethnicity Distribution</div>
+            <p class="figure-caption">Distribution skew by model, including unknown and medium-response share.</p>
+          </div>
+        </article>
+
+        <article class="figure-card">
+          <img src="assests/image/web/doctor-gender-distribution.png" alt="Doctor prompt gender distribution" />
+          <div class="figure-body">
+            <div class="figure-title">Doctor Prompt: Gender Distribution</div>
+            <p class="figure-caption">Parity deviation and stereotype reinforcement patterns across model outputs.</p>
+          </div>
+        </article>
+
+        <article class="figure-card">
+          <img src="assests/image/web/culture-cas-vs-accuracy.png" alt="Culture prompt CAS versus cultural accuracy" />
+          <div class="figure-body">
+            <div class="figure-title">Culture Prompt: CAS vs Cultural Accuracy</div>
+            <p class="figure-caption">Measures stereotype intensity against culturally grounded correctness.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Additional Diagnostics</h2>
+
+      <div class="results-grid">
+        <article class="figure-card">
+          <img src="assests/image/web/bias-amplification-beauty-doctor.png" alt="Bias amplification in beauty and doctor prompts" />
+          <div class="figure-body">
+            <div class="figure-title">Bias Amplification</div>
+            <p class="figure-caption">Amplification above 1.0 indicates active reinforcement beyond observed training bias.</p>
+          </div>
+        </article>
+
+        <article class="figure-card">
+          <img src="assests/image/web/beauty-kl-shannon.png" alt="KL divergence and Shannon entropy for beauty prompts" />
+          <div class="figure-body">
+            <div class="figure-title">KL Divergence and Shannon Entropy</div>
+            <p class="figure-caption">Fair-distribution distance and diversity signal for beauty prompt generations.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section is-soft">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Qualitative Gallery</h2>
+
+      <div class="results-grid">
+        <article class="figure-card">
+          <img src="assests/image/web/gallery-part-1.png" alt="Generated image gallery part 1" />
+          <div class="figure-body">
+            <div class="figure-title">Rows: Beauty, Doctor, Animal</div>
+            <p class="figure-caption">Side-by-side generations and composite bias scores across models.</p>
+          </div>
+        </article>
+
+        <article class="figure-card">
+          <img src="assests/image/web/gallery-part-2.png" alt="Generated image gallery part 2" />
+          <div class="figure-body">
+            <div class="figure-title">Rows: Nature, Culture</div>
+            <p class="figure-caption">Prompt-level visual comparison with low/moderate/high bias bands.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 section-title has-text-centered">Key Contributions</h2>
+      <div class="content section-subtext">
+        <ol>
+          <li>A thirteen-metric evaluation framework integrating seven original bias metrics with six newly proposed metrics for faithfulness, diversity, and cultural accuracy.</li>
+          <li>Evidence that SD v1.5 and BK-SDM show Bias Amplification above 1.0 in beauty prompts, indicating stereotype reinforcement beyond training distributions.</li>
+          <li>Observation that surgical PPE can suppress visible gender cues in doctor prompts, materially affecting measured stereotype behavior.</li>
+          <li>Quantification of a cultural representation failure where all evaluated models frequently collapse Indian festival prompts into a narrow Holi/Diwali subset.</li>
+          <li>Evidence that model scale alone does not monotonically predict fairness behavior across prompt families.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title is-3 section-title has-text-centered">BibTeX</h2>
+      <pre><code id="bibtex-block">@article{jaiswal2026t2ibiasbench,
+  title={T2I-BiasBench: A Multi-Metric Framework for Auditing Demographic and Cultural Bias in Text-to-Image Models},
+  author={Jaiswal, Nihal and Chaurasiya, Anchal and Singh, Aditya and Kumar, Ankush and Chaubey, Gyanendra},
+  journal={arXiv preprint arXiv:XXXX.XXXXX},
+  year={2026},
+  note={Preprint draft available at \\url{https://github.com/GyanendraChaubey/T2I-BiasBench}}
+}</code></pre>
+      <div class="has-text-centered mt-3">
+        <button id="copyBib" class="button is-dark is-rounded" type="button">
+          <span class="icon"><i class="fa-regular fa-copy"></i></span>
+          <span>Copy BibTeX</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section is-soft">
+    <div class="container is-max-desktop has-text-centered footer-note">
+      <p>
+        Built with the Academic Project Page style and adapted for <span class="brand-text">T2I-BiasBench</span>.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      var btn = document.getElementById("copyBib");
+      var block = document.getElementById("bibtex-block");
+      if (!btn || !block) return;
+
+      btn.addEventListener("click", function () {
+        var text = block.textContent;
+        navigator.clipboard.writeText(text).then(function () {
+          btn.classList.add("is-success");
+          btn.querySelector("span:last-child").textContent = "Copied";
+          setTimeout(function () {
+            btn.classList.remove("is-success");
+            btn.querySelector("span:last-child").textContent = "Copy BibTeX";
+          }, 1400);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
