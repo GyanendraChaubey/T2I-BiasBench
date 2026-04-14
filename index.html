@@ -198,10 +198,11 @@
 
         <div class="is-size-5 publication-authors">
           <span class="author-block"><strong>Nihal Jaiswal</strong><sup>1&#8224;</sup>,</span>
-          <span class="author-block"><strong>Anchal Chaurasiya</strong><sup>1&#8224;</sup>,</span>
-          <span class="author-block"><strong>Aditya Singh</strong><sup>1&#8224;</sup>,</span>
+          <span class="author-block"><strong>Siddhartha Arjaria</strong><sup>1&#8224;</sup>,</span>
+          <span class="author-block"><strong>Gyanendra Chaubey</strong><sup>2*</sup>,</span>
           <span class="author-block"><strong>Ankush Kumar</strong><sup>1&#8224;</sup>,</span>
-          <span class="author-block"><strong>Gyanendra Chaubey</strong><sup>2*</sup></span>
+          <span class="author-block"><strong>Aditya Singh</strong><sup>1&#8224;</sup>,</span>
+          <span class="author-block"><strong>Anchal Chaurasiya</strong><sup>1&#8224;</sup></span>
         </div>
 
         <div class="is-size-6 publication-affiliation mt-2 has-text-grey">
@@ -244,21 +245,26 @@
       <h2 class="title is-3 section-title has-text-centered">Abstract</h2>
       <div class="content section-subtext">
         <p>
-          Text-to-image (T2I) generative models have achieved strong visual fidelity, but their deployment raises
-          urgent questions around demographic fairness and cultural representation. This paper introduces
-          <strong>T2I-BiasBench</strong>, a reproducible thirteen-metric framework that quantifies bias across
-          demographic and contextual dimensions in small-scale diffusion models.
+          Text-to-image (T2I) generative models achieve impressive visual fidelity but inherit and amplify
+          demographic imbalances and cultural biases embedded in training data. We introduce
+          <strong>T2I-BiasBench</strong>, a unified evaluation framework of thirteen complementary metrics that
+          jointly captures demographic bias, element omission, and cultural collapse in diffusion models—the
+          first framework to address all three dimensions simultaneously.
         </p>
         <p>
-          We evaluate Stable Diffusion v1.5, BK-SDM Base, and Koala Lightning, with Gemini 2.5 Flash
-          (RLHF-trained) as a high-parameter baseline, over 1,574 generated images spanning Beauty, Doctor,
-          Culture, Animal, and Nature prompts. The framework integrates seven original bias metrics and six
-          newly proposed measures to jointly evaluate fairness, stereotype strength, diversity, faithfulness, and
-          prompt alignment. Results show stereotype amplification in beauty prompts, capability masking effects in
-          medical prompts, and persistent cultural collapse to a narrow festival subset across all models.
+          We evaluate three open-source models—Stable Diffusion v1.5, BK-SDM Base, and Koala Lightning—against
+          Gemini 2.5 Flash (RLHF-aligned) as a reference baseline. The benchmark comprises 1,574 generated
+          images across five structured prompt categories. T2I-BiasBench integrates six established metrics with
+          seven additional measures: four newly proposed (Composite Bias Score, Grounded Missing Rate, Implicit
+          Element Missing Rate, Cultural Accuracy Ratio) and three adapted (Hallucination Score, Vendi Score,
+          CLIP Proxy Score).
         </p>
-        <p class="has-text-grey">
-          Note: This website currently reflects the raw preprint draft. Final language edits and arXiv submission are in progress.
+        <p>
+          Three key findings emerge: (1) Stable Diffusion v1.5 and BK-SDM exhibit bias amplification (&gt;1.0)
+          in beauty-related prompts; (2) contextual constraints such as surgical PPE substantially attenuate
+          professional-role gender bias (Doctor CBS = 0.06 for SD v1.5); and (3) all models, including
+          RLHF-aligned Gemini, collapse to a narrow set of cultural representations (CAS: 0.54–1.00),
+          confirming that alignment techniques do not resolve cultural coverage gaps.
         </p>
       </div>
     </div>
@@ -284,7 +290,7 @@
       <h2 class="title is-3 section-title has-text-centered">Evaluation Metrics</h2>
       <div class="content section-subtext">
         <p class="mb-3">
-          T2I-BiasBench uses a broad metric panel to capture multiple failure modes instead of overfitting to one bias score.
+          T2I-BiasBench uses thirteen complementary metrics—six established and seven additional—to capture multiple failure modes instead of overfitting to one bias score.
         </p>
         <ul class="metric-list">
           <li>Representation Parity</li>
@@ -430,11 +436,11 @@
       <h2 class="title is-3 section-title has-text-centered">Key Contributions</h2>
       <div class="content section-subtext">
         <ol>
-          <li>A thirteen-metric evaluation framework integrating seven original bias metrics with six newly proposed metrics for faithfulness, diversity, and cultural accuracy.</li>
-          <li>Evidence that SD v1.5 and BK-SDM show Bias Amplification above 1.0 in beauty prompts, indicating stereotype reinforcement beyond training distributions.</li>
-          <li>Observation that surgical PPE can suppress visible gender cues in doctor prompts, materially affecting measured stereotype behavior.</li>
-          <li>Quantification of a cultural representation failure where all evaluated models frequently collapse Indian festival prompts into a narrow Holi/Diwali subset.</li>
-          <li>Evidence that model scale alone does not monotonically predict fairness behavior across prompt families.</li>
+          <li>The first unified thirteen-metric evaluation framework jointly capturing demographic bias, omission, diversity, and cultural fidelity in T2I models. We propose four new metrics—Composite Bias Score (CBS), Grounded Missing Rate (GMR), Implicit Element Missing Rate (IEMR), and Cultural Accuracy Ratio (CAR)—and adapt three existing metrics (Hallucination Score, Vendi Score, CLIP Proxy Score) for T2I bias evaluation.</li>
+          <li>Empirical evidence that Stable Diffusion v1.5 and BK-SDM exhibit Bias Amplification &gt;1.0 for beauty-related prompts, demonstrating that these models actively reinforce stereotypes beyond underlying training data distributions.</li>
+          <li>Identification of a novel phenomenon, <strong>Visual Attribute Occlusion Prompting (VAOP)</strong>, wherein contextual elements such as surgical PPE obscure demographic cues and significantly reduce measurable gender bias—a retraining-free mitigation strategy.</li>
+          <li>Quantification of a systemic cultural representation collapse across all evaluated models—including RLHF-aligned Gemini—showing that diverse cultural prompts are mapped to a narrow subset of dominant representations.</li>
+          <li>Demonstration that model scale does not monotonically predict bias severity, highlighting the dominant role of data composition and training dynamics over parameter count.</li>
         </ol>
       </div>
     </div>
